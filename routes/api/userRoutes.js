@@ -9,18 +9,16 @@ const {
     deleteFriend,
     getUserSingleThought,
     getUserThoughts,
-    createUserThought,
-    deleteThought
 } = require('../../controllers/userController')
 
 router.route('/')
     .get(getUsers)
     .post(createUser)
-    .put(updateUser)
 
 router.route('/:id')
     .get(getSingleUser)
     .delete(deleteUser)
+    .put(updateUser)
 
 router.route('/:id/friends/:friendId')
     .post(addFriend)
@@ -28,7 +26,6 @@ router.route('/:id/friends/:friendId')
 
 router.route('/:id/thoughts')
     .get(getUserThoughts)
-    .post(createUserThought)
 
 router.route('/:id/thoughts/:thoughtId')
     .get(getUserSingleThought)
