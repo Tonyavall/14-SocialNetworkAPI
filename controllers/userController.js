@@ -45,8 +45,8 @@ module.exports = {
     },
     async deleteUser(req, res) {
         try {
-            const response = await findOneAndUpdate({_id: req.params.id})
-            if (!response) res.json('No user with this Id.')
+            const response = await findOneAndDelete({_id: req.params.id})
+            if (!response) return res.json('No user with this Id.')
             
             res.status(200).json('Success')
         } catch(error) {
