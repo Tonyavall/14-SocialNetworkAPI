@@ -1,4 +1,3 @@
-const { findOneAndUpdate } = require('../models/User')
 const User = require('../models/User')
 
 module.exports = {
@@ -63,7 +62,7 @@ module.exports = {
     },
     async deleteUser(req, res) {
         try {
-            const response = await findOneAndDelete({_id: req.params.id})
+            const response = await User.findOneAndDelete({_id: req.params.id})
             if (!response) return res.json('No user with this Id.')
             
             res.status(200).json('Success')
