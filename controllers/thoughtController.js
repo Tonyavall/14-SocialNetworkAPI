@@ -26,13 +26,14 @@ module.exports = {
         try {  
             const createdThought = await Thought.create(req.body)
             await User.findOneAndUpdate(
-                { _id: req.params.id },
-                { $push: { _id: createdThought._id } }
+                { username: createdThought.username },
+                { $push: { thoughts: createdThought._id } }
             )
 
             res.status(200).json(createdThought)
         } catch(error) {
-            res.status(400).json(error)
+            console.log(error)
+            // res.status(400).json(error)
         }
     },
     async updateThought(req, res) {
