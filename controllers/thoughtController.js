@@ -33,7 +33,7 @@ module.exports = {
     },
     async updateThought(req, res) {
         try {
-            const updatedThought = await findOneAndUpdate(
+            const updatedThought = await Thought.findOneAndUpdate(
                 { _id: req.params.id },
                 { $set: req.body },
                 { runValidators: true, new: true }
@@ -46,11 +46,12 @@ module.exports = {
     },
     async deleteThought(req, res) {
         try {
-            const response = await findOneAndDelete({_id: req.params.id})
+            const response = await Thought.findOneAndDelete({_id: req.params.id})
             if (!response) return res.json('Does not exist')
 
             res.status(200).json('Success')
         } catch(error) {
+            console.log(error)
             res.status(400).json(error)
         }
     },
