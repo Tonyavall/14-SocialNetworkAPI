@@ -8,10 +8,11 @@ module.exports = {
 
             res.status(200).json(thoughts)
         } catch(error) {
+            console.log(error)
             res.status(400).json(error)
         }
     },
-    async getSingleThought(res, res) {
+    async getSingleThought(req, res) {
         try {
             const thought = await Thought.find({_id: req.params.id})
             if (!thought) return res.json('Does not exist.')
