@@ -4,16 +4,22 @@ const User = require('../models/User')
 module.exports = {
     async getUsers(req, res) {
         try {
-            const users = await User.find()
+            const users = await User
+                .find()
+                .populate({
+                    path: 'friends', 
+                    select: ['username', 'email'] 
+                })
 
             res.status(200).json(users)
         } catch(error) {
-            res.status(400).json(error)
+            console.log(error)
         }
     },
     async getSingleUser(req, res) {
         try {
             const user = await User.find({_id: req.params.id})
+            if (!user) return res.json('User not found.')
 
             res.status(200).json(user)
         } catch(error) {
