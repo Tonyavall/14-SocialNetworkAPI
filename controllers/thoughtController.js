@@ -1,4 +1,4 @@
-const Thought = require('../models/Thought')
+const { Thought, User } = require('../models/index')
 const { findOneAndDelete } = require('../models/User')
 
 module.exports = {
@@ -25,6 +25,10 @@ module.exports = {
     async createThought(req, res) {
         try {  
             const createdThought = await Thought.create(req.body)
+            await User.findOneAndUpdate(
+                { _id: req.params.id },
+                { $push: { _id: createdThought._id } }
+            )
 
             res.status(200).json(createdThought)
         } catch(error) {
@@ -73,6 +77,29 @@ module.exports = {
             )
 
             res.status(200).json(updatedThought)
+        } catch(error) {
+            res.status(400).json(error)
+        }
+    },
+    async getSingleThoughtReaction(req, res) {
+        try {
+            const { thoughts } = await Thought.findOne({_id: req.params.id})
+            const [ singleThought ] = thoughts.filter(thought=> thought._id === req.params.thoughtId)
+
+            res.status(200).json(singleThought)
+        } catch(error) {
+            res.status(400).json(error)
+        }
+    },
+    async deleteThoughtReaction(req, res) {
+        try {
+            const thought = await Thought.findOneAndUpdate(
+                { _id: req.params.id },
+                { $pull: { _id: req.params.reactionId } },
+                { runValidators: true, new: true }
+            )
+
+            res.status(200).json(thought)
         } catch(error) {
             res.status(400).json(error)
         }
