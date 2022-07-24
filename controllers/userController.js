@@ -96,5 +96,18 @@ module.exports = {
         } catch(error) {
             res.status(400).json(error)
         }
+    },
+    async createUserThought(req, res) {
+        try {
+            const { thoughts } = await User.findOneAndUpdate(
+                { _id: req.params.id },
+                { $push: { thoughts: req.body } },
+                { runValidators: true, new: true }
+            )
+
+            res.status(200).json(thoughts)
+        } catch(error) {
+            res.status(400).json(error)
+        }
     }
 }
