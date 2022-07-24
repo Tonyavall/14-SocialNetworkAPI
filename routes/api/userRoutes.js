@@ -7,7 +7,8 @@ const {
     deleteUser,
     addFriend,
     getUserSingleThought,
-    getUserThoughts
+    getUserThoughts,
+    createUserThought
 } = require('../../controllers/userController')
 
 router.route('/')
@@ -24,6 +25,7 @@ router.route('/:id/add/:friendId')
 
 router.route('/:id/thoughts')
     .get(getUserThoughts)
+    .post(createUserThought)
 
 router.route('/:id/thoughts/:thoughtId')
     .get(getUserSingleThought)

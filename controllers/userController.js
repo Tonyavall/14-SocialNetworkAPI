@@ -18,7 +18,12 @@ module.exports = {
     },
     async getSingleUser(req, res) {
         try {
-            const user = await User.find({_id: req.params.id})
+            const user = await User
+                .find({_id: req.params.id})
+                .populate({
+                    path: 'friends', 
+                    select: ['username', 'email'] 
+                })
             if (!user) return res.json('User not found.')
 
             res.status(200).json(user)
@@ -109,5 +114,5 @@ module.exports = {
         } catch(error) {
             res.status(400).json(error)
         }
-    }
+    },
 }
