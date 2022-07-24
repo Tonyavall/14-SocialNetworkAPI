@@ -52,5 +52,18 @@ module.exports = {
         } catch(error) {
             res.status(400).json(error)
         }
+    },
+    async addFriend(req, res) {
+        try {
+            const updatedUser = await User.findOneAndUpdate(
+                { _id: req.params.id },
+                { $push: { friends: req.params.friendId } },
+                { runValidators: true, new: true }
+            )
+
+            res.status(200).json(updatedUser)
+        } catch(error) {
+            res.status(400).json(error)
+        }
     }
 }
