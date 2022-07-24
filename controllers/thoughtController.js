@@ -61,7 +61,7 @@ module.exports = {
     },
     async getThoughtReactions(req, res) {
         try {
-            const { reactions } = await Thought.find({_id: req.params.id})
+            const { reactions } = await Thought.find()
 
             res.status(200).json(reactions)
         } catch(error) {
@@ -70,13 +70,13 @@ module.exports = {
     },
     async createThoughtReaction(req, res) {
         try {
-            const updatedThought = await Thought.findOneAndUpdate(
+            const { reactions } = await Thought.findOneAndUpdate(
                 {_id: req.params.id},
                 { $push: { reactions: req.body } },
                 { runValidators: true, new: true }
             )
 
-            res.status(200).json(updatedThought)
+            res.status(200).json(reactions)
         } catch(error) {
             res.status(400).json(error)
         }
