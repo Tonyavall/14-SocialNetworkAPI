@@ -77,5 +77,24 @@ module.exports = {
         } catch(error) {
             res.status(400).json(error)
         }
+    },
+    async getUserThoughts(req, res) {
+        try {
+            const { thoughts } = await User.find()
+
+            res.status(200).json(thoughts)
+        } catch(error) {
+            res.status(400).json(error)
+        }
+    },
+    async getUserSingleThought(req, res) {
+        try {
+            const { thoughts } = await User.find({_id: req.params.id})
+            const [singleThought] = thoughts.filter(thought => thought._id === req.params.thoughtId)
+
+            res.status(200).json(singleThought)
+        } catch(error) {
+            res.status(400).json(error)
+        }
     }
 }

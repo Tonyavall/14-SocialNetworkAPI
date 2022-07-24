@@ -20,4 +20,9 @@ router.route('/:id')
 router.route('/:id/add/:friendId')
     .post(addFriend)
 
+router.route('/:id/thoughts')
+
+
+router.route('/:id/thoughts/:thoughtId')
+
 module.exports = router;
