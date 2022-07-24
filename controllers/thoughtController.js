@@ -61,7 +61,7 @@ module.exports = {
     },
     async getThoughtReactions(req, res) {
         try {
-            const { reactions } = await Thought.find()
+            const { reactions } = await Thought.findOne({_id: req.params.id})
 
             res.status(200).json(reactions)
         } catch(error) {
