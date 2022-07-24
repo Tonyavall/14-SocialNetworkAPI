@@ -6,6 +6,7 @@ const {
     updateUser,
     deleteUser,
     addFriend,
+    deleteFriend,
     getUserSingleThought,
     getUserThoughts,
     createUserThought
@@ -22,6 +23,7 @@ router.route('/:id')
 
 router.route('/:id/add/:friendId')
     .post(addFriend)
+    .delete(deleteFriend)
 
 router.route('/:id/thoughts')
     .get(getUserThoughts)

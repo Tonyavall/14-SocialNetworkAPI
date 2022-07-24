@@ -10,7 +10,10 @@ module.exports = {
                     path: 'friends', 
                     select: ['username', 'email'] 
                 })
-
+                .populate({
+                    path: 'thoughts', 
+                    select: ['thoughtText', 'createdAt'] 
+                })
             res.status(200).json(users)
         } catch(error) {
             console.log(error)
@@ -23,6 +26,10 @@ module.exports = {
                 .populate({
                     path: 'friends', 
                     select: ['username', 'email'] 
+                })
+                .populate({
+                    path: 'thoughts', 
+                    select: ['thoughtText', 'createdAt'] 
                 })
             if (!user) return res.json('User not found.')
 
@@ -37,7 +44,7 @@ module.exports = {
 
             res.status(200).json(createdUser)
         } catch(error) {
-            res.statas(400).json(error)
+            res.status(400).json(error)
         }
     },
     async updateUser(req, res) {
@@ -75,6 +82,25 @@ module.exports = {
             const updatedFriend = await User.findOneAndUpdate(
                 { _id: req.params.friendId },
                 { $push: { friends: req.params.id } },
+                { runValidators: true, new: true }
+            )
+
+            res.status(200).json('Success')
+        } catch(error) {
+            res.status(400).json(error)
+        }
+    },
+    async deleteFriend(req, res) {
+        try {
+            const updatedUser = await User.findOneAndUpdate(
+                { _id: req.params.id },
+                { $pull: { friends: req.params.friendId } },
+                { runValidators: true, new: true }
+            )
+
+            const updatedFriend = await User.findOneAndUpdate(
+                { _id: req.params.friendId },
+                { $pull: { friends: req.params.id } },
                 { runValidators: true, new: true }
             )
 
