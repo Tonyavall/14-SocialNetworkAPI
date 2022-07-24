@@ -61,7 +61,13 @@ module.exports = {
                 { runValidators: true, new: true }
             )
 
-            res.status(200).json(updatedUser)
+            const updatedFriend = await User.findOneAndUpdate(
+                { _id: req.params.friendId },
+                { $push: { friends: req.params.id } },
+                { runValidators: true, new: true }
+            )
+
+            res.status(200).json('Success')
         } catch(error) {
             res.status(400).json(error)
         }
