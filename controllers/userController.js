@@ -91,13 +91,14 @@ module.exports = {
                 { $push: { friends: req.params.friendId } },
                 { runValidators: true, new: true }
             )
-
+            if (!updatedUser) return res.json('Unable to find User')
             const updatedFriend = await User.findOneAndUpdate(
                 { _id: req.params.friendId },
                 { $push: { friends: req.params.id } },
                 { runValidators: true, new: true }
             )
-
+            if (!updatedFriend) return res.json('Unable to find Friend')
+            
             res.status(200).json('Success')
         } catch(error) {
             res.status(400).json(error)
