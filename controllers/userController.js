@@ -70,6 +70,20 @@ module.exports = {
             res.status(400).json(error)
         }
     },
+    async getUserFriends(req ,res) {
+        try {
+            const { friends } = await User
+                .findOne({_id: req.params.id})
+                .populate({
+                    path: 'friends', 
+                    select: ['username', 'email'] 
+                })
+
+            res.status(200).json(friends)
+        } catch(error) {
+            res.status(400).json(error)
+        }
+    },
     async addFriend(req, res) {
         try {
             const updatedUser = await User.findOneAndUpdate(

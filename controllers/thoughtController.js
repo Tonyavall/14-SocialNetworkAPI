@@ -83,10 +83,10 @@ module.exports = {
     },
     async getSingleThoughtReaction(req, res) {
         try {
-            const { thoughts } = await Thought.findOne({_id: req.params.id})
-            const [ singleThought ] = thoughts.filter(thought=> thought._id === req.params.thoughtId)
-
-            res.status(200).json(singleThought)
+            const { reactions } = await Thought.findOne({_id: req.params.id})
+            const [singleReaction] = reactions.filter(reaction=> reaction._id.toString() === req.params.reactionId)
+            
+            res.status(200).json(singleReaction)
         } catch(error) {
             res.status(400).json(error)
         }
@@ -95,11 +95,12 @@ module.exports = {
         try {
             const thought = await Thought.findOneAndUpdate(
                 { _id: req.params.id },
-                { $pull: { _id: req.params.reactionId } },
+                { $pull: { reactions: { _id: req.params.reactionId } } },
                 { runValidators: true, new: true }
             )
-
-            res.status(200).json(thought)
+            if (!thought) return res.json('Unable to find reaction')
+            
+            res.status(200).json('Success')
         } catch(error) {
             res.status(400).json(error)
         }
